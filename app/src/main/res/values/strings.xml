@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BluetoothAndroid</string>
+    <string name="title">List of Bluetooth Connect Device</string>
+    <string name="no_device">No Device Have Paired</string>
 </resources>

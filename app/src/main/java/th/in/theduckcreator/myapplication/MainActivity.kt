@@ -1,5 +1,6 @@
 package th.`in`.theduckcreator.myapplication
 
+
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothDevice.ACTION_FOUND
@@ -10,6 +11,12 @@ import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
+import th.`in`.theduckcreator.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +52,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        var binding = DataBindingUtil.setContentView<ActivityMainBinding>(this,R.layout.activity_main)
+
 
         //2nd Checking User Bluetooth Adapter is on or Off
         if (mybluetoothAdapter?.isEnabled == false) {
@@ -53,13 +61,22 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(userEnableBtIntent, 12)
         }
 
+
         //3rd Paired Device Find
+        var deviceListString = "Device list \n"
         val pairedDevice: Set<BluetoothDevice>? = mybluetoothAdapter?.bondedDevices
+
         pairedDevice?.forEach { device ->
             val deviceName = device.name
             val deviceHardwareAddress = device.address
             Log.i("Bluetooth", "Device Name " + deviceName + "MAC Address " + deviceHardwareAddress)
+            val deviceInfo = "\n Device: " + deviceName + "\n Mac Address: " + deviceHardwareAddress + "\n";
+            deviceListString = deviceListString + deviceInfo
         }
+        devicePrint1.setText(deviceListString)
+
+
+
 
 
         //4th Discovering
