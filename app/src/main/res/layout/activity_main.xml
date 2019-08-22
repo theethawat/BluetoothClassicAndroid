@@ -19,14 +19,51 @@
                 android:layout_marginStart="56dp" android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.416"
                 android:id="@+id/titleText"/>
+
         <TextView
-                android:text="@string/no_device"
-                android:layout_width="334dp"
-                android:layout_height="581dp"
                 android:id="@+id/devicePrint1"
-                android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/titleText"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp" android:textSize="18sp"/>
+                android:layout_width="316dp"
+                android:layout_height="373dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:isScrollContainer="true"
+                android:scrollIndicators="right"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:text="@string/no_device"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleText" />
+
+        <Button
+                android:id="@+id/startDiscoverBT"
+                android:layout_width="164dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/start_discover"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.935"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/devicePrint1"
+                app:layout_constraintVertical_bias="0.0"
+                tools:visibility="visible" />
+
+        <Button
+                android:id="@+id/profileFindBT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/getProfile"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@+id/startDiscoverBT"
+                app:layout_constraintHorizontal_bias="0.589"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/devicePrint1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

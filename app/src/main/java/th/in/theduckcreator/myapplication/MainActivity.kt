@@ -1,11 +1,8 @@
 package th.`in`.theduckcreator.myapplication
 
 
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
+import android.bluetooth.*
 import android.bluetooth.BluetoothDevice.ACTION_FOUND
-import android.bluetooth.BluetoothServerSocket
-import android.bluetooth.BluetoothSocket
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -13,6 +10,7 @@ import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
@@ -36,6 +34,16 @@ class MainActivity : AppCompatActivity() {
         putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,150)
     }
 
+    private val profileListener = object : BluetoothProfile.ServiceListener{
+        override fun onServiceConnected(myProfile: Int, profileProxy: BluetoothProfile) {
+            Log.i("Bluetooth",myProfile.toString())
+        }
+
+        override fun onServiceDisconnected(p0: Int) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            Log.i("Bluetooth","Cannot find Any Profile")
+        }
+    }
 
 
 
@@ -81,13 +89,25 @@ class MainActivity : AppCompatActivity() {
 
 
 
+        val filter = IntentFilter(ACTION_FOUND)
+        registerReceiver(receiver, filter)
+
+        binding.startDiscoverBT.setOnClickListener{
+            Log.i("Bluetooth","Discover Button is Clicked")
+            Log.i("Bluetooth",filter.toString())
+            mybluetoothAdapter?.startDiscovery()
+            startActivity(discoverableIntent)
+            binding.profileFindBT.visibility = View.VISIBLE
+        }
+
+        binding.profileFindBT.setOnClickListener{
+            Log.i("Bluetooth","Profile Listener is Clicked")
+            mybluetoothAdapter?.getProfileProxy(this,profileListener,BluetoothProfile.HEALTH)
+        }
 
         //Discovering Broadcast the Device and get an Information to my Bluetooth Reciever
-        startActivity(discoverableIntent)
-        Log.i("Bluetooth","Ready To Processing")
-        val filter = IntentFilter(ACTION_FOUND)
-        Log.i("Bluetooth",filter.toString())
-        registerReceiver(receiver, filter)
+
+
 
     }
 

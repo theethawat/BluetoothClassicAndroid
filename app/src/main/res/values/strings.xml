@@ -2,4 +2,6 @@
     <string name="app_name">BluetoothAndroid</string>
     <string name="title">List of Bluetooth Connect Device</string>
     <string name="no_device">No Device Have Paired</string>
+    <string name="start_discover">Start Discover</string>
+    <string name="getProfile">Get Profile</string>
 </resources>
