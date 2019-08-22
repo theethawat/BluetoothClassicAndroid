@@ -1,69 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
-    <androidx.constraintlayout.widget.ConstraintLayout
 
+    <LinearLayout
+            android:id="@+id/activityMainLinear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MainActivity" android:id="@+id/frontpageLayout">
+            android:orientation="vertical">
 
-        <TextView
-                android:layout_width="299dp"
-                android:layout_height="37dp"
-                android:text="@string/title"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textSize="18sp" android:textStyle="bold"
-                android:layout_marginTop="28dp" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="56dp" android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.416"
-                android:id="@+id/titleText"/>
-
-        <TextView
-                android:id="@+id/devicePrint1"
-                android:layout_width="316dp"
-                android:layout_height="373dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:isScrollContainer="true"
-                android:scrollIndicators="right"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-                android:text="@string/no_device"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleText" />
-
-        <Button
-                android:id="@+id/startDiscoverBT"
-                android:layout_width="164dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/start_discover"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.935"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/devicePrint1"
-                app:layout_constraintVertical_bias="0.0"
-                tools:visibility="visible" />
-
-        <Button
-                android:id="@+id/profileFindBT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/getProfile"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toStartOf="@+id/startDiscoverBT"
-                app:layout_constraintHorizontal_bias="0.589"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/devicePrint1" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <fragment
+                android:id="@+id/myNavHostFragment"
+                android:layout_width="match_parent"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_title"
+                app:navGraph="@navigation/navigation"
+                app:defaultNavHost="true"/>
+    </LinearLayout>
 </layout>
