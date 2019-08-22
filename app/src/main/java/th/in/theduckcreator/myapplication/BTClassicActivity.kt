@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import th.`in`.theduckcreator.myapplication.databinding.BtClassicActivityBinding
 import java.io.IOException
 import java.util.*
@@ -70,6 +68,8 @@ class BTClassicActivity :Fragment()   {
         }
     }
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -82,8 +82,8 @@ class BTClassicActivity :Fragment()   {
             startActivityForResult(userEnableBtIntent, 12)
         }
 
-        val filter = IntentFilter(ACTION_FOUND)
-        registerReceiver(receiver, filter)
+        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+            activity?.registerReceiver(receiver, filter)
 
         binding.startDiscoverBT.setOnClickListener{
             Log.i("Bluetooth","Discover Button is Clicked")
@@ -118,7 +118,7 @@ class BTClassicActivity :Fragment()   {
     override fun onDestroy() {
         super.onDestroy()
         Log.i("Bluetooth","Close Correctly")
-        unregisterReceiver(receiver)
+        activity?.unregisterReceiver(receiver)
     }
 
     //Let's it act as a bluetooth Server
