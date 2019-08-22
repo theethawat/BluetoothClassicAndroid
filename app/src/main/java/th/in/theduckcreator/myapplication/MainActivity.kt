@@ -4,6 +4,8 @@ package th.`in`.theduckcreator.myapplication
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothDevice.ACTION_FOUND
+import android.bluetooth.BluetoothServerSocket
+import android.bluetooth.BluetoothSocket
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -17,6 +19,8 @@ import androidx.databinding.DataBindingUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import th.`in`.theduckcreator.myapplication.databinding.ActivityMainBinding
+import java.io.IOException
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     /**
@@ -84,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         val filter = IntentFilter(ACTION_FOUND)
         Log.i("Bluetooth",filter.toString())
         registerReceiver(receiver, filter)
+
     }
 
     override fun onResume() {
@@ -99,11 +104,43 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
     override fun onDestroy() {
         super.onDestroy()
         Log.i("Bluetooth","Close Correctly")
         unregisterReceiver(receiver)
+    }
+
+    //Let's it act as a bluetooth Server
+    private  inner class AcceptThread : Thread(){
+        //Use LazyThreadSafety is easier than Try-Catch Exception
+        private val myServerSocket:BluetoothServerSocket ? by lazy(LazyThreadSafetyMode.NONE){
+            mybluetoothAdapter?.listenUsingInsecureRfcommWithServiceRecord("EHealthRFCOMM", UUID.fromString("00001400-0000-1000-8000-00805F9B34FB"))
+        }
+
+        override fun run() {
+            var shouldLoop = true //Listen until exception until socket return
+            while (shouldLoop){
+                val socket:BluetoothSocket? = try {
+                    myServerSocket?.accept()
+                } catch (e: IOException){
+                    Log.e("Bluetooth","Socket accept() method fail",e)
+                    shouldLoop = false
+                    null
+                }
+                socket?.also {
+                   // manageMyConnecedSocket(it)
+                    myServerSocket?.close()
+                    shouldLoop = false
+                }
+            }
+        }
+
+        fun cancle(){
+            try {
+                myServerSocket?.close()
+            }catch (e:IOException){
+                Log.e("Bluetooth","Cannot Close the Socket",e)
+            }
+        }
     }
 }
