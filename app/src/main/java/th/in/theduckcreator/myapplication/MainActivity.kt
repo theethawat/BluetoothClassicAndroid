@@ -19,15 +19,23 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 import th.`in`.theduckcreator.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    /**
+     * -------------------------------
+     * Field Zone | Declare Variable
+     * --------------------------------
+     * */
 
-    //1st Create Bluetooth Adapter
+    private lateinit var binding:ActivityMainBinding
+    // Create Bluetooth Adapter
     val mybluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     val discoverableIntent:Intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
         putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,150)
     }
 
-    //5th Create Bluetooth Reciever for register from myFilter
-    // receiver as a object that are BroadcastReciever
+
+
+
+    // Create Bluetooth Reciever for register from myFilter receiver as a object that are BroadcastReciever
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(myContext: Context, intent: Intent) {
             Log.i("Bluetooth ","Checkpoint Broadcast Receiver")
@@ -50,47 +58,44 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
+    /**
+     * -------------------------------
+     * Method Zone | Set Working Activity Using Android Activity Lifecycle
+     * --------------------------------
+     * */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var binding = DataBindingUtil.setContentView<ActivityMainBinding>(this,R.layout.activity_main)
-
-
-        //2nd Checking User Bluetooth Adapter is on or Off
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        //Checking User Bluetooth Adapter is on or Off
         if (mybluetoothAdapter?.isEnabled == false) {
             val userEnableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(userEnableBtIntent, 12)
         }
 
 
-        //3rd Paired Device Find
-        var deviceListString = "Device list \n"
-        val pairedDevice: Set<BluetoothDevice>? = mybluetoothAdapter?.bondedDevices
-
-        pairedDevice?.forEach { device ->
-            val deviceName = device.name
-            val deviceHardwareAddress = device.address
-            Log.i("Bluetooth", "Device Name " + deviceName + "MAC Address " + deviceHardwareAddress)
-            val deviceInfo = "\n Device: " + deviceName + "\n Mac Address: " + deviceHardwareAddress + "\n";
-            deviceListString = deviceListString + deviceInfo
-        }
-        devicePrint1.setText(deviceListString)
 
 
-
-
-
-        //4th Discovering
-        //Broadcast the Device and get an Information to my Bluetooth Reciever
-
+        //Discovering Broadcast the Device and get an Information to my Bluetooth Reciever
         startActivity(discoverableIntent)
         Log.i("Bluetooth","Ready To Processing")
-
         val filter = IntentFilter(ACTION_FOUND)
-        //Debug
         Log.i("Bluetooth",filter.toString())
-
         registerReceiver(receiver, filter)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        //Paired Device Find
+        val pairedDevice: Set<BluetoothDevice>? = mybluetoothAdapter?.bondedDevices
+        var deviceListString = "Device \n"
+        pairedDevice?.forEach { device ->
+            deviceListString = deviceListString +"\n Device Name \n" + device.name + "\n MAC Address" + device.address +"\n"
+        }
+
+        binding.devicePrint1.setText(deviceListString)
     }
 
 
