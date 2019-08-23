@@ -13,9 +13,16 @@
         <action
                 android:id="@+id/action_titleFragment_to_BTClassicActivity2"
                 app:destination="@id/BTClassicActivity2" />
+        <action
+                android:id="@+id/action_titleFragment_to_BTLowEnergyFragment"
+                app:destination="@id/BTLowEnergyFragment" />
     </fragment>
     <fragment
             android:id="@+id/BTClassicActivity2"
             android:name="th.in.theduckcreator.myapplication.BTClassicActivity"
             android:label="BTClassicActivity" />
+    <fragment
+            android:id="@+id/BTLowEnergyFragment"
+            android:name="th.in.theduckcreator.myapplication.BTLowEnergyFragment"
+            android:label="BTLowEnergyFragment" />
 </navigation>

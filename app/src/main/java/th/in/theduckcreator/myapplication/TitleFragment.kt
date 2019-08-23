@@ -24,6 +24,11 @@ class TitleFragment : Fragment() {
         binding.bluetoothClassicBT.setOnClickListener{view: View? ->
             binding.bluetoothClassicBT.findNavController().navigate(R.id.action_titleFragment_to_BTClassicActivity2)
         }
+
+        binding.bluetoothLEBT.setOnClickListener { view: View? ->
+            binding.bluetoothLEBT.findNavController().navigate(R.id.action_titleFragment_to_BTLowEnergyFragment)
+        }
+
         return binding.root
     }
 
