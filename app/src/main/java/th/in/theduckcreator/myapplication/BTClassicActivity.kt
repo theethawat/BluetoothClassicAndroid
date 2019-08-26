@@ -12,11 +12,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import th.`in`.theduckcreator.myapplication.databinding.BtClassicActivityBinding
 import java.io.IOException
 import java.util.*
+import th.`in`.theduckcreator.myapplication.BLEScanActivity
 
 class BTClassicActivity :Fragment()   {
     /**
@@ -26,6 +28,7 @@ class BTClassicActivity :Fragment()   {
      * */
 
     private lateinit var binding:BtClassicActivityBinding
+    val duration = Toast.LENGTH_SHORT
     // Create Bluetooth Adapter
     val mybluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     val discoverableIntent:Intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
@@ -48,12 +51,15 @@ class BTClassicActivity :Fragment()   {
     // Create Bluetooth Reciever for register from myFilter receiver as a object that are BroadcastReciever
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(myContext: Context, intent: Intent) {
+
+            var action:String = intent.action!!
             Log.i("Bluetooth ","Checkpoint Broadcast Receiver")
-            when (val action = intent.action) {
+
+            when (action) {
                 ACTION_FOUND -> {
                     Log.i("Bluetooth", "Device Found" + action)
                     //Found the Device get that object
-                    val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+                    val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)!!
                     val deviceName = device.name
                     val deviceHardwareAddress = device.address //MAC Address
                     Log.i(
@@ -79,31 +85,58 @@ class BTClassicActivity :Fragment()   {
         //Checking User Bluetooth Adapter is on or Off
         if (mybluetoothAdapter?.isEnabled == false) {
             val userEnableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            startActivityForResult(userEnableBtIntent, 12)
+            startActivityForResult(userEnableBtIntent, 1024)
         }
+        Log.i("Bluetooth","Program Starting")
 
-        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-            activity?.registerReceiver(receiver, filter)
+        val myReceiver = receiver
+        val filter = IntentFilter(ACTION_FOUND)
+
 
         binding.startDiscoverBT.setOnClickListener{
             Log.i("Bluetooth","Discover Button is Clicked")
-            Log.i("Bluetooth",filter.toString())
+
+            if(mybluetoothAdapter != null){
+                Log.i("Bluetooth","Bluetooth Adapter is not null")
+                if(mybluetoothAdapter.isDiscovering()){
+                    Log.i("Bluetooth","Now Bluetooth is Discovering and I will stop it")
+                    mybluetoothAdapter.cancelDiscovery()
+                }
+            }
+
+            activity?.registerReceiver(myReceiver, filter)
             mybluetoothAdapter?.startDiscovery()
+            Log.i("Bluetooth","Start Discovery")
+            Log.i("Bluetooth",mybluetoothAdapter.toString())
+
             startActivity(discoverableIntent)
+            Toast.makeText(context,"Discover Start",duration).show()
             binding.profileFindBT.visibility = View.VISIBLE
+        }
+
+        binding.stopDiscoverBT.setOnClickListener {
+            mybluetoothAdapter?.cancelDiscovery()
+            Toast.makeText(context,"Bluetooth Discovery is stop",duration).show()
         }
 
         binding.profileFindBT.setOnClickListener{
             Log.i("Bluetooth","Profile Listener is Clicked")
             mybluetoothAdapter?.getProfileProxy(context,profileListener,BluetoothProfile.HEALTH)
         }
-
         //Discovering Broadcast the Device and get an Information to my Bluetooth Reciever
         return binding.root
     }
 
+
+
+
+
     override fun onResume() {
         super.onResume()
+        if (mybluetoothAdapter!!.isDiscovering){
+            Log.i("Bluetooth",".")
+        }
+
         //Paired Device Find
         val pairedDevice: Set<BluetoothDevice>? = mybluetoothAdapter?.bondedDevices
         var deviceListString = "Device \n"

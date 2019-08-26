@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Context.BLUETOOTH_SERVICE
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,6 @@ class BTLowEnergyFragment : Fragment() {
 
 
     private lateinit var binding :FragmentBtlowEnergyBinding
-
     private val bluetoothAdapter: BluetoothAdapter? by lazy(LazyThreadSafetyMode.NONE){
         val bluetoothManager = activity?.getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothManager.adapter
@@ -44,5 +44,10 @@ class BTLowEnergyFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+            BLEScanActivity(bluetoothAdapter!!).running()
+
+    }
 
 }

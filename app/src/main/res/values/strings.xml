@@ -11,4 +11,5 @@
     <string name="bluetooth_app_name">Bluetooth Testing App</string>
     <string name="bluetooth_classic">Bluetooth Classic</string>
     <string name="ble_title">Bluetooth Low Energy</string>
+    <string name="stop_discover">Stop Discover</string>
 </resources>
