@@ -12,4 +12,5 @@
     <string name="bluetooth_classic">Bluetooth Classic</string>
     <string name="ble_title">Bluetooth Low Energy</string>
     <string name="stop_discover">Stop Discover</string>
+    <string name="no_device_found">No Device Found</string>
 </resources>

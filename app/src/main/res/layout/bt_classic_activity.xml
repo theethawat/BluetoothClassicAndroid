@@ -22,8 +22,8 @@
 
         <TextView
                 android:id="@+id/devicePrint1"
-                android:layout_width="316dp"
-                android:layout_height="373dp"
+                android:layout_width="349dp"
+                android:layout_height="156dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
@@ -57,11 +57,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="48dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="36dp"
                 android:text="@string/getProfile"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toStartOf="@+id/startDiscoverBT"
-                app:layout_constraintHorizontal_bias="0.589"
+                app:layout_constraintHorizontal_bias="0.186"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/devicePrint1" />
 
@@ -69,12 +69,21 @@
                 android:id="@+id/stopDiscoverBT"
                 android:layout_width="155dp"
                 android:layout_height="49dp"
-                android:layout_marginTop="16dp"
                 android:text="@string/stop_discover"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.937"
+                app:layout_constraintHorizontal_bias="0.902"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/startDiscoverBT" />
+
+        <TextView
+                android:id="@+id/discoverList"
+                android:layout_width="314dp"
+                android:layout_height="219dp"
+                android:layout_marginTop="139dp"
+                android:text="@string/no_device_found"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/devicePrint1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
